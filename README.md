@@ -43,6 +43,7 @@ Linked death records through 2019: 58, 28 and 11 deaths per 100 within 10 years 
 | `src/compare_published.py` | Compares with the closest published model design |
 | `src/test_fhir.js` | Tests the FHIR reader on a folder of Synthea files |
 | `src/retrain.py` | Retrains on a new dataset |
+| `src/sync_docs.js` | Copies `docs/` files into the website before each deploy |
 | `demo/` | The website; runs entirely in the browser |
 | `docs/` | Model card, validation report, related work and deployment plan |
 | `models/`, `metrics/`, `figures/` | Trained models and saved results |
@@ -64,6 +65,7 @@ cd src
 cd ..
 .venv/Scripts/python src/stress_test.py
 ```
+These commands are for Windows with Git Bash. On Mac or Linux, use `python3` for the first line and replace `.venv/Scripts` with `.venv/bin` and `../.venv/Scripts` with `../.venv/bin`.
 
 ## Run the website
 ```bash

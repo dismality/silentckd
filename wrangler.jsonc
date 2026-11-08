@@ -5,6 +5,9 @@
   "observability": {
     "enabled": true
   },
+  "build": {
+    "command": "node src/sync_docs.js"
+  },
   "assets": {
     "directory": "demo"
   }
