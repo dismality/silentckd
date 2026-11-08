@@ -3,13 +3,14 @@
 Text to paste into Devpost, an explanation of the numbers, likely questions, and a demo script. Items in [square brackets] are for you to fill in.
 
 **Live demo:** https://silentckd.davidwong51423.workers.dev (public, hosted on Cloudflare)
+**Code:** https://github.com/dismality/silentckd (public)
 **Slides:** https://claude.ai/artifact/FbHEYsrXp2LU2ZRkp5Nb7W (private until shared. Can be downloaded as PowerPoint.)
 
 ## Before you submit
 1. Open the slides' **Share** menu and make them viewable by anyone with the link. The live demo is already public.
 2. Replace `[confirm team]` on the last slide, and fill in the team section below.
 3. Confirm the deadline with the organisers. The site says final submission is 25 Nov 2026, but its timeline shows Round 2 running until 25 Nov and closing on 30 Nov.
-4. Upload the code to GitHub (steps are in the README), and give the organisers that link plus `docs/model_card.md`, `docs/validation_report.md`, `docs/related_work.md` and `docs/deployment_plan.md` wherever they ask.
+4. Give the organisers the code link above, plus `docs/model_card.md`, `docs/validation_report.md`, `docs/related_work.md` and `docs/deployment_plan.md` wherever they ask.
 
 ## Devpost sections
 

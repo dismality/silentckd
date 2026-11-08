@@ -4,6 +4,8 @@ Finds adults with diabetes or high blood pressure who probably have hidden kidne
 
 Built for DataNova 2026, problem DN-HC-01 (Early Risk Stratification for Chronic Disease). Prototype only, not a medical device.
 
+**Try it:** https://silentckd.davidwong51423.workers.dev | **Code:** https://github.com/dismality/silentckd
+
 ## The problem
 Early kidney damage has no symptoms, and the usual kidney blood test misses more than half of it. A cheap urine test (ACR) finds it, but [only 35% of people with diabetes and 4% with hypertension get one within two years](https://pubmed.ncbi.nlm.nih.gov/34365812/).
 
