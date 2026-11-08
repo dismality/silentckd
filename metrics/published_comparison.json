@@ -1,0 +1,44 @@
+{
+ "test_2021_23": {
+  "n": 2583,
+  "auroc_gain": 0.015,
+  "auroc_gain_ci": [
+   0.0,
+   0.03
+  ],
+  "silentckd": {
+   "auroc": 0.754,
+   "calibration_slope": 0.97,
+   "mean_pred_percent": 19.6,
+   "found_testing_1_in_5_percent": 48
+  },
+  "published_style": {
+   "auroc": 0.739,
+   "calibration_slope": 1.06,
+   "mean_pred_percent": 19.1,
+   "found_testing_1_in_5_percent": 46
+  },
+  "observed_percent": 19.0
+ },
+ "locked_2007_10": {
+  "n": 2469,
+  "auroc_gain": 0.019,
+  "auroc_gain_ci": [
+   0.004,
+   0.035
+  ],
+  "silentckd": {
+   "auroc": 0.749,
+   "calibration_slope": 0.95,
+   "mean_pred_percent": 20.0,
+   "found_testing_1_in_5_percent": 47
+  },
+  "published_style": {
+   "auroc": 0.73,
+   "calibration_slope": 0.92,
+   "mean_pred_percent": 20.9,
+   "found_testing_1_in_5_percent": 44
+  },
+  "observed_percent": 18.5
+ }
+}

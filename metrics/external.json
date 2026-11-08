@@ -1,0 +1,253 @@
+{
+ "locked_test": {
+  "n": 2469,
+  "cases": 457,
+  "prevalence": 19,
+  "auroc": 0.749,
+  "auroc_ci": [
+   0.723,
+   0.774
+  ],
+  "calibration_slope": 0.95,
+  "calibration_intercept": -0.17,
+  "mean_pred": 20,
+  "caught": 82,
+  "flagged": 58,
+  "bands": {
+   "likely": {
+    "share": 6,
+    "have": 62,
+    "mean_pred": 67
+   },
+   "possible": {
+    "share": 51,
+    "have": 22,
+    "mean_pred": 23
+   },
+   "unlikely": {
+    "share": 42,
+    "have": 8,
+    "mean_pred": 9
+   }
+  },
+  "found_testing_1_in_5": {
+   "silentckd": 47,
+   "diabetes_first": 31
+  },
+  "groups": [
+   {
+    "group": "20–44",
+    "cases": 54,
+    "caught": 87
+   },
+   {
+    "group": "45–64",
+    "cases": 143,
+    "caught": 66
+   },
+   {
+    "group": "65+",
+    "cases": 260,
+    "caught": 89
+   },
+   {
+    "group": "Women",
+    "cases": 203,
+    "caught": 80
+   },
+   {
+    "group": "Men",
+    "cases": 254,
+    "caught": 83
+   },
+   {
+    "group": "Black",
+    "cases": 87,
+    "caught": 86
+   },
+   {
+    "group": "White",
+    "cases": 190,
+    "caught": 78
+   },
+   {
+    "group": "Mexican American",
+    "cases": 104,
+    "caught": 85
+   },
+   {
+    "group": "Has diabetes",
+    "cases": 232,
+    "caught": 93
+   },
+   {
+    "group": "High blood pressure only",
+    "cases": 225,
+    "caught": 70
+   }
+  ]
+ },
+ "short_model_share_external": 0,
+ "outcomes": {
+  "n": 2466,
+  "deaths": 555,
+  "median_followup_years": 9.8,
+  "ten_year_death_percent": {
+   "likely": 58,
+   "possible": 28,
+   "unlikely": 11
+  },
+  "by_answer_age_sex": {
+   "likely": {
+    "hr": 4.2,
+    "low": 3.15,
+    "high": 5.59
+   },
+   "possible": {
+    "hr": 1.72,
+    "low": 1.38,
+    "high": 2.15
+   }
+  },
+  "all_cause": {
+   "n": 2466,
+   "events": 555,
+   "per_sd_age_sex": {
+    "hr": 1.52,
+    "low": 1.41,
+    "high": 1.64
+   },
+   "flagged_vs_unlikely_age_sex": {
+    "hr": 1.95,
+    "low": 1.57,
+    "high": 2.42
+   }
+  },
+  "heart_kidney_metabolic": {
+   "n": 2466,
+   "events": 213,
+   "per_sd_age_sex": {
+    "hr": 1.7,
+    "low": 1.52,
+    "high": 1.91
+   },
+   "flagged_vs_unlikely_age_sex": {
+    "hr": 2.63,
+    "low": 1.76,
+    "high": 3.92
+   }
+  },
+  "urine_test_normal_today": {
+   "all_cause": {
+    "n": 2010,
+    "events": 367,
+    "per_sd_age_sex": {
+     "hr": 1.5,
+     "low": 1.34,
+     "high": 1.69
+    },
+    "flagged_vs_unlikely_age_sex": {
+     "hr": 1.67,
+     "low": 1.3,
+     "high": 2.14
+    }
+   },
+   "heart_kidney_metabolic": {
+    "n": 2010,
+    "events": 135,
+    "per_sd_age_sex": {
+     "hr": 1.75,
+     "low": 1.46,
+     "high": 2.09
+    },
+    "flagged_vs_unlikely_age_sex": {
+     "hr": 2.33,
+     "low": 1.47,
+     "high": 3.7
+    }
+   }
+  },
+  "no_detectable_kidney_disease_today": {
+   "all_cause": {
+    "n": 1765,
+    "events": 265,
+    "per_sd_age_sex": {
+     "hr": 1.37,
+     "low": 1.16,
+     "high": 1.61
+    },
+    "flagged_vs_unlikely_age_sex": {
+     "hr": 1.56,
+     "low": 1.2,
+     "high": 2.03
+    }
+   },
+   "heart_kidney_metabolic": {
+    "n": 1765,
+    "events": 95,
+    "per_sd_age_sex": {
+     "hr": 1.81,
+     "low": 1.41,
+     "high": 2.31
+    },
+    "flagged_vs_unlikely_age_sex": {
+     "hr": 2.3,
+     "low": 1.42,
+     "high": 3.74
+    }
+   },
+   "ten_year_death_percent": {
+    "flagged": 21,
+    "unlikely": 10
+   }
+  },
+  "kidney_deaths": 7
+ },
+ "robustness": [
+  {
+   "scenario": "Clean research data",
+   "auroc": 0.754,
+   "mean_pred": 20,
+   "observed": 19,
+   "caught": 81,
+   "flagged": 55,
+   "short_model_share": 0
+  },
+  {
+   "scenario": "Many tests missing, as in routine care",
+   "auroc": 0.747,
+   "mean_pred": 20,
+   "observed": 19,
+   "caught": 85,
+   "flagged": 64,
+   "short_model_share": 95
+  },
+  {
+   "scenario": "Single rounded BP, noisier labs",
+   "auroc": 0.748,
+   "mean_pred": 20,
+   "observed": 19,
+   "caught": 80,
+   "flagged": 55,
+   "short_model_share": 0
+  },
+  {
+   "scenario": "15% of diagnoses and medicines not recorded",
+   "auroc": 0.752,
+   "mean_pred": 19,
+   "observed": 19,
+   "caught": 80,
+   "flagged": 54,
+   "short_model_share": 0
+  },
+  {
+   "scenario": "All of the above together",
+   "auroc": 0.742,
+   "mean_pred": 20,
+   "observed": 19,
+   "caught": 83,
+   "flagged": 61,
+   "short_model_share": 95
+  }
+ ]
+}

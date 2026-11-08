@@ -1,0 +1,51 @@
+told_kidney in cohort test 0.062
+
+1 CALIBRATION by predicted band (n, mean pred, observed)
+  0.00-0.10 n= 853 pred=0.075 obs=0.067
+  0.10-0.20 n= 921 pred=0.141 obs=0.150
+  0.20-0.35 n= 447 pred=0.259 obs=0.239
+  0.35-0.50 n= 178 pred=0.410 obs=0.393
+  0.50-0.70 n= 116 pred=0.588 obs=0.560
+  0.70-1.01 n=  68 pred=0.806 obs=0.809
+  Likely mean pred 0.669 obs 0.652
+
+2 WHO IS IN 'LIKELY'
+  eGFR<60: 0.55; dx diabetes 0.82; has_diabetes 0.86; told kidney 0.24; neither dm nor eGFR<60: 0.04
+
+3 SUBGROUPS (AUROC, prevalence, n)
+  all                                  n=2583 prev=0.190 auc=0.754 flagged=0.55 sens=0.81 ppv=0.283
+  eGFR>=60                             n=2223 prev=0.165 auc=0.736 flagged=0.48 sens=0.75 ppv=0.257
+  eGFR>=60 & not told                  n=2164 prev=0.161 auc=0.736 flagged=0.48 sens=0.75 ppv=0.253
+  no dm & eGFR>=60 (usually missed)    n=1504 prev=0.116 auc=0.706 flagged=0.35 sens=0.59 ppv=0.197
+  dm only                              n= 886 prev=0.302 auc=0.737 flagged=0.81 sens=0.93 ppv=0.347
+  dx dm                                n= 742 prev=0.321 auc=0.733 flagged=0.82 sens=0.92 ppv=0.361
+
+4 SHORT FORM ONLY (the fields on the main form)
+  short form auc 0.731 vs full 0.754; mean pred 0.270 vs obs 0.190
+   0-0.2 n=1208 pred=0.127 obs=0.090
+   0.2-0.5 n=1060 pred=0.317 obs=0.217
+   0.5-1.01 n=315 pred=0.663 obs=0.486
+
+5 ANSWER CONTRADICTIONS: lower chance but stronger answer
+  max prob among Unlikely 0.130; min prob among Possible 0.087
+  Unlikely with chance >= overall avg 19%: 0 ; Possible with chance < 19%: 555 of 1224
+
+6 FLAG RATE BY AGE (age thresholds)
+  20-44 n=340 cases=42 flagged=0.49 ppv=0.242
+  45-64 n=995 cases=170 flagged=0.42 ppv=0.287
+  65+ n=1248 cases=280 flagged=0.66 ppv=0.289
+
+7 XGB vs SIMPLE MODELS, paired bootstrap
+  LR25 0.728 LR5 0.701 XGB 0.754
+  XGB-LR25 0.026 (0.015,0.037)  XGB-LR5 0.053 (0.039,0.068)
+
+8 Survey-weighted AUROC on test: 0.765 (unweighted 0.754)
+
+9 Young-adult CI: sens with age thresholds
+  n=42 sens=0.95 CI 0.88-1.00
+  Asian n=32 sens=0.75 CI 0.59-0.88
+
+10 RANDOM vs 'diabetes first' at Likely-size; tests per case
+  Likely: tests per case found 1.53
+  Likely+Possible: tests per case found 3.54
+  test everyone: 5.25

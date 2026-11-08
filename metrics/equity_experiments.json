@@ -1,0 +1,200 @@
+{
+  "race_free_no_race_input": {
+    "Asian": {
+      "n": 1054,
+      "auroc": 0.7212367411419545,
+      "sensitivity": 0.7095238095238096,
+      "fpr": 0.4158767772511848
+    },
+    "Black": {
+      "n": 2982,
+      "auroc": 0.7586375134218856,
+      "sensitivity": 0.8330781010719756,
+      "fpr": 0.5186775440103049
+    },
+    "Mexican American": {
+      "n": 1310,
+      "auroc": 0.763675588130162,
+      "sensitivity": 0.8087774294670846,
+      "fpr": 0.4530776992936428
+    },
+    "Other Hispanic": {
+      "n": 1128,
+      "auroc": 0.7421630542872167,
+      "sensitivity": 0.7607655502392344,
+      "fpr": 0.455930359085963
+    },
+    "Other/Multiracial": {
+      "n": 389,
+      "auroc": 0.7567976920302921,
+      "sensitivity": 0.7872340425531915,
+      "fpr": 0.4745762711864407
+    },
+    "White": {
+      "n": 4060,
+      "auroc": 0.7639639737193318,
+      "sensitivity": 0.8065739570164349,
+      "fpr": 0.4686448455185072
+    }
+  },
+  "with_race_input": {
+    "Asian": {
+      "n": 1054,
+      "auroc": 0.7238377341457909,
+      "sensitivity": 0.7285714285714285,
+      "fpr": 0.43838862559241704
+    },
+    "Black": {
+      "n": 2982,
+      "auroc": 0.7578760906001103,
+      "sensitivity": 0.8192955589586524,
+      "fpr": 0.506655216831258
+    },
+    "Mexican American": {
+      "n": 1310,
+      "auroc": 0.7613695674866907,
+      "sensitivity": 0.8401253918495298,
+      "fpr": 0.5247225025227044
+    },
+    "Other Hispanic": {
+      "n": 1128,
+      "auroc": 0.7391641632521307,
+      "sensitivity": 0.7464114832535885,
+      "fpr": 0.4309031556039173
+    },
+    "Other/Multiracial": {
+      "n": 389,
+      "auroc": 0.7552470248827984,
+      "sensitivity": 0.8404255319148937,
+      "fpr": 0.5220338983050847
+    },
+    "White": {
+      "n": 4060,
+      "auroc": 0.7632067551016541,
+      "sensitivity": 0.7926675094816688,
+      "fpr": 0.456408687672071
+    }
+  },
+  "with_2009_race_based_egfr": {
+    "Asian": {
+      "n": 1054,
+      "auroc": 0.7276348454073572,
+      "sensitivity": 0.7142857142857143,
+      "fpr": 0.42417061611374407
+    },
+    "Black": {
+      "n": 2982,
+      "auroc": 0.7582272130412399,
+      "sensitivity": 0.8346094946401225,
+      "fpr": 0.5225418634607127
+    },
+    "Mexican American": {
+      "n": 1310,
+      "auroc": 0.7655577311793602,
+      "sensitivity": 0.8119122257053292,
+      "fpr": 0.4601412714429869
+    },
+    "Other Hispanic": {
+      "n": 1128,
+      "auroc": 0.743719770293277,
+      "sensitivity": 0.7607655502392344,
+      "fpr": 0.45701849836779107
+    },
+    "Other/Multiracial": {
+      "n": 389,
+      "auroc": 0.7547060944825099,
+      "sensitivity": 0.7659574468085106,
+      "fpr": 0.46440677966101696
+    },
+    "White": {
+      "n": 4060,
+      "auroc": 0.7644821927937383,
+      "sensitivity": 0.8065739570164349,
+      "fpr": 0.46619761394921994
+    }
+  },
+  "egfr_reclassification": {
+    "black_participants": 3368,
+    "reclassified_to_egfr_below_60_by_2021_equation": 158,
+    "black_with_egfr_below_60_2009": 459,
+    "black_with_egfr_below_60_2021": 617,
+    "mean_egfr_black_2009": 88.37993250185673,
+    "mean_egfr_black_2021": 79.87445223721325
+  },
+  "mitigation_age": {
+    "20-44": {
+      "n_test": 340,
+      "threshold": 0.08574613183736801,
+      "sens_global": 0.6904761904761905,
+      "sens_group": 0.9523809523809523,
+      "flagged_global": 0.23529411764705882,
+      "flagged_group": 0.4852941176470588
+    },
+    "45-64": {
+      "n_test": 995,
+      "threshold": 0.1144077256321907,
+      "sens_global": 0.711764705882353,
+      "sens_group": 0.7764705882352941,
+      "flagged_global": 0.42412060301507537,
+      "flagged_group": 0.5185929648241207
+    },
+    "65+": {
+      "n_test": 1248,
+      "threshold": 0.17894187569618225,
+      "sens_global": 0.8464285714285714,
+      "sens_group": 0.7,
+      "flagged_global": 0.6578525641025641,
+      "flagged_group": 0.4735576923076923
+    }
+  },
+  "mitigation_race": {
+    "Asian": {
+      "n_test": 125,
+      "threshold": 0.10548746585845947,
+      "sens_global": 0.75,
+      "sens_group": 0.8125,
+      "flagged_global": 0.472,
+      "flagged_group": 0.568
+    },
+    "Black": {
+      "n_test": 386,
+      "threshold": 0.14456747472286224,
+      "sens_global": 0.7802197802197802,
+      "sens_group": 0.7472527472527473,
+      "flagged_global": 0.6062176165803109,
+      "flagged_group": 0.5414507772020726
+    },
+    "Mexican American": {
+      "n_test": 156,
+      "threshold": 0.13149166107177734,
+      "sens_global": 0.75,
+      "sens_group": 0.7142857142857143,
+      "flagged_global": 0.532051282051282,
+      "flagged_group": 0.5192307692307693
+    },
+    "Other Hispanic": {
+      "n_test": 238,
+      "threshold": 0.11730694025754929,
+      "sens_global": 0.8604651162790697,
+      "sens_group": 0.8604651162790697,
+      "flagged_global": 0.5042016806722689,
+      "flagged_group": 0.5966386554621849
+    },
+    "Other/Multiracial": {
+      "n_test": 164,
+      "threshold": 0.12063682079315186,
+      "sens_global": 0.8717948717948718,
+      "sens_group": 0.8974358974358975,
+      "flagged_global": 0.5609756097560976,
+      "flagged_group": 0.6097560975609756
+    },
+    "White": {
+      "n_test": 1514,
+      "threshold": 0.13250955939292908,
+      "sens_global": 0.7722007722007722,
+      "sens_group": 0.7567567567567568,
+      "flagged_global": 0.4854689564068692,
+      "flagged_group": 0.47556142668428003
+    }
+  }
+}

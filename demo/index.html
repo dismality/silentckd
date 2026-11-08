@@ -1,0 +1,488 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SilentCKD</title>
+<meta name="description" content="Finds adults with diabetes or high blood pressure who probably have hidden kidney damage, so clinics know who to send for a urine test first. Prototype for DataNova 2026.">
+<meta property="og:title" content="SilentCKD: who to test first for hidden kidney damage">
+<meta property="og:description" content="A prototype that ranks patients for a urine kidney test using routine check-up data. Runs in your browser. Not a medical device.">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700;800&display=swap">
+<style>
+:root{
+  --bg:#f6f4ef; --card:#ffffff; --ink:#1d2421; --muted:#5b6661; --line:#e3e0d8; --soft:#efece5;
+  --accent:#0f766e; --accent-ink:#ffffff; --accent-soft:#d9efec;
+  --likely:#c2410c; --likely-soft:#fde7dc; --possible:#a16207; --possible-soft:#fbf0cf; --unlikely:#15803d; --unlikely-soft:#dcf2e3;
+  --other:#9aa39e; --shadow:0 1px 2px rgba(0,0,0,.05),0 4px 16px rgba(0,0,0,.04);
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#121614; --card:#1b201e; --ink:#eef2ef; --muted:#a2aca7; --line:#2c3330; --soft:#232926;
+  --accent:#3fc1b0; --accent-ink:#06201c; --accent-soft:#16332f;
+  --likely:#fb8b5a; --likely-soft:#3a2219; --possible:#f0c14b; --possible-soft:#352d16; --unlikely:#5fd38a; --unlikely-soft:#173022;
+  --other:#5c6661; --shadow:none;
+}}
+:root[data-theme="dark"]{
+  --bg:#121614; --card:#1b201e; --ink:#eef2ef; --muted:#a2aca7; --line:#2c3330; --soft:#232926;
+  --accent:#3fc1b0; --accent-ink:#06201c; --accent-soft:#16332f;
+  --likely:#fb8b5a; --likely-soft:#3a2219; --possible:#f0c14b; --possible-soft:#352d16; --unlikely:#5fd38a; --unlikely-soft:#173022;
+  --other:#5c6661; --shadow:none;
+}
+*{box-sizing:border-box} [hidden]{display:none!important}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.55 "Public Sans",system-ui,sans-serif}
+a{color:var(--accent)}
+h1,h2,h3{line-height:1.2;margin:0 0 .4em;letter-spacing:-.01em}
+h1{font-size:clamp(30px,5vw,46px);font-weight:800}
+h2{font-size:clamp(23px,3.2vw,30px);font-weight:800}
+h3{font-size:19px;font-weight:700}
+p{margin:0 0 .8em}
+.wrap{max-width:1080px;margin:0 auto;padding:0 16px}
+.muted{color:var(--muted)} .small{font-size:16px}
+header{position:sticky;top:0;z-index:5;background:var(--bg);border-bottom:1px solid var(--line)}
+.bar{display:flex;align-items:center;gap:16px;min-height:62px;flex-wrap:wrap;padding-top:6px;padding-bottom:6px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:800;font-size:19px;text-decoration:none;color:var(--ink)}
+.brand .drop{width:24px;height:24px;border-radius:50% 50% 50% 0;transform:rotate(-45deg);background:var(--accent)}
+nav{display:flex;gap:4px;flex-wrap:wrap;margin-left:auto}
+nav button{font:inherit;font-size:15.5px;font-weight:600;border:0;background:none;color:var(--muted);padding:8px 13px;border-radius:999px;cursor:pointer}
+nav button[aria-current="page"]{background:var(--ink);color:var(--bg)}
+nav button:hover:not([aria-current]){background:var(--soft);color:var(--ink)}
+main{padding:28px 0 64px}
+section.view{display:none} section.view.on{display:block}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:22px;box-shadow:var(--shadow);min-width:0}
+.grid{display:grid;gap:16px}
+.g2{grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr))}
+.g3{grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr))}
+.g4{grid-template-columns:repeat(auto-fit,minmax(min(100%,210px),1fr))}
+.btn{font:inherit;font-weight:700;font-size:16px;border-radius:999px;padding:12px 22px;border:2px solid var(--accent);background:var(--accent);color:var(--accent-ink);cursor:pointer;text-decoration:none;display:inline-block}
+.btn.ghost{background:transparent;color:var(--accent)}
+.btn.sm{font-size:14.5px;padding:7px 14px;border-width:1.5px}
+.row{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+.eyebrow{font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);margin-bottom:8px}
+.big-num{font-size:42px;font-weight:800;line-height:1;letter-spacing:-.02em}
+.big-num small{font-size:20px;font-weight:700}
+.stat p{margin:.5em 0 0;color:var(--muted)}
+.section{margin-top:52px}
+.lead{font-size:20px;color:var(--muted);max-width:740px}
+details{border-top:1px solid var(--line);padding-top:12px;margin-top:14px}
+summary{cursor:pointer;font-weight:700;color:var(--accent)}
+ul.clean{list-style:none;padding:0;margin:0} ul.clean li{padding:8px 0;border-bottom:1px solid var(--line)} ul.clean li:last-child{border:0}
+.note{background:var(--accent-soft);border-radius:14px;padding:14px 16px}
+.hero{display:grid;grid-template-columns:1.25fr 1fr;gap:28px;align-items:center}
+@media (max-width:820px){.hero{grid-template-columns:1fr}}
+.steps .card{position:relative;padding-top:56px}
+.steps .num{position:absolute;top:18px;left:22px;width:28px;height:28px;border-radius:50%;background:var(--accent);color:var(--accent-ink);font-weight:800;display:grid;place-items:center;font-size:15px}
+.chip{display:inline-flex;align-items:center;gap:6px;font-weight:700;font-size:13.5px;border-radius:999px;padding:3px 11px;white-space:nowrap}
+.chip.likely{background:var(--likely-soft);color:var(--likely)} .chip.possible{background:var(--possible-soft);color:var(--possible)} .chip.unlikely{background:var(--unlikely-soft);color:var(--unlikely)}
+.chip::before{content:"";width:8px;height:8px;border-radius:50%;background:currentColor}
+.verdict{border-radius:20px;padding:24px;border:2px solid}
+.verdict.likely{background:var(--likely-soft);border-color:var(--likely)} .verdict.possible{background:var(--possible-soft);border-color:var(--possible)} .verdict.unlikely{background:var(--unlikely-soft);border-color:var(--unlikely)}
+.verdict .tag{font-weight:800;letter-spacing:.08em;font-size:14px}
+.verdict.likely .tag{color:var(--likely)} .verdict.possible .tag{color:var(--possible)} .verdict.unlikely .tag{color:var(--unlikely)}
+.verdict h2{margin:6px 0 14px}
+.vbody{display:grid;grid-template-columns:auto 1fr;gap:20px;align-items:center}
+@media (max-width:520px){.vbody{grid-template-columns:1fr}}
+.dots{display:grid;grid-template-columns:repeat(10,12px);gap:4px}
+.dots i{width:12px;height:12px;border-radius:50%;background:var(--other);opacity:.4}
+.dots i.on{opacity:1}
+.likely .dots i.on{background:var(--likely)} .possible .dots i.on{background:var(--possible)} .unlikely .dots i.on{background:var(--unlikely)}
+.chance{font-size:22px;font-weight:700;line-height:1.3}
+.next{margin-top:16px;background:var(--card);border-radius:14px;padding:14px 16px;font-size:17px}
+.next b{display:block;font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.flagline{margin-top:12px;font-weight:600}
+.reasons{list-style:none;margin:0;padding:0}
+.reasons li{display:grid;grid-template-columns:28px 1fr auto;gap:12px;align-items:center;padding:10px 0;border-bottom:1px solid var(--line)}
+.reasons li:last-child{border:0}
+.arrow{width:28px;height:28px;border-radius:50%;display:grid;place-items:center;font-weight:800;font-size:15px}
+.up .arrow{background:var(--likely-soft);color:var(--likely)} .down .arrow{background:var(--unlikely-soft);color:var(--unlikely)}
+.strength{display:flex;gap:3px} .strength i{width:9px;height:16px;border-radius:3px;background:var(--line)}
+.up .strength i.on{background:var(--likely)} .down .strength i.on{background:var(--unlikely)}
+.qs{list-style:none;margin:0;padding:0}
+.qs li{padding:9px 0 9px 32px;position:relative;border-bottom:1px solid var(--line)} .qs li:last-child{border:0}
+.qs li::before{content:"?";position:absolute;left:0;top:10px;width:22px;height:22px;border-radius:50%;background:var(--accent-soft);color:var(--accent);font-weight:800;font-size:13px;display:grid;place-items:center}
+.stack{display:grid;gap:16px;align-content:start;min-width:0}
+.check{display:grid;grid-template-columns:minmax(0,400px) minmax(0,1fr);gap:20px;align-items:start}
+@media (max-width:880px){.check{grid-template-columns:1fr}}
+.examples{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:18px}
+.ex{font:inherit;text-align:left;background:var(--card);border:1.5px solid var(--line);border-radius:14px;padding:10px 12px;cursor:pointer;color:var(--ink)}
+.ex b{display:block;font-size:15.5px} .ex span{font-size:13.5px;color:var(--muted)}
+.ex[aria-pressed="true"]{border-color:var(--accent);background:var(--accent-soft)}
+.f{margin-bottom:14px}
+.lab{display:block;font-weight:600;font-size:15.5px;margin-bottom:5px}
+.hint{font-weight:400;color:var(--muted);font-size:15px}
+input[type=number]{font:inherit;width:100%;padding:10px 12px;border-radius:10px;border:1.5px solid var(--line);background:var(--bg);color:var(--ink)}
+input:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.seg{display:inline-flex;background:var(--soft);border-radius:999px;padding:3px;flex:none}
+.seg button{font:inherit;font-size:15px;font-weight:600;border:0;background:none;color:var(--muted);padding:6px 15px;border-radius:999px;cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--card);color:var(--ink);box-shadow:0 1px 3px rgba(0,0,0,.15)}
+.yn{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--line)}
+.yn span{font-weight:600;font-size:15.5px}
+.real{border:1.5px dashed var(--muted);border-radius:14px;padding:12px 14px}
+.tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+@media (max-width:600px){.tiles{grid-template-columns:1fr}}
+.tile{border-radius:16px;padding:16px;border:2px solid transparent;cursor:pointer;text-align:left;font:inherit;color:var(--ink)}
+.tile.likely{background:var(--likely-soft)} .tile.possible{background:var(--possible-soft)} .tile.unlikely{background:var(--unlikely-soft)}
+.tile[aria-pressed="true"]{border-color:var(--ink)}
+.tile .big-num{font-size:36px}
+.tile .t{font-weight:700;margin-top:4px}
+table{width:100%;border-collapse:collapse;font-size:15.5px}
+th{white-space:nowrap;text-align:left;font-size:12.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:700;padding:8px 10px;border-bottom:1px solid var(--line)}
+td{padding:11px 10px;border-bottom:1px solid var(--line);vertical-align:middle}
+tbody tr{cursor:pointer} tbody tr:hover{background:var(--soft)}
+tbody tr.in-plan td:first-child{box-shadow:inset 4px 0 0 var(--accent);font-weight:700;color:var(--ink,inherit)}
+.plan-inputs{display:grid;grid-template-columns:1fr 170px;gap:24px;align-items:end;margin-top:10px}
+.plan-inputs label>span:first-child{display:block;font-size:17px;margin-bottom:8px}
+.plan-inputs b{font-size:22px}
+.plan-slider input{width:100%;accent-color:var(--accent);height:28px}
+.plan-money{display:flex;align-items:center;gap:6px;font-size:20px;font-weight:700}
+.plan-money input{width:100%;font:inherit;padding:8px 10px;border:1px solid var(--line,#ccc);border-radius:10px;background:transparent;color:inherit}
+@media (max-width:600px){.plan-inputs{grid-template-columns:1fr}}
+.evidence-row{display:grid;grid-template-columns:1fr 90px 90px;gap:12px;align-items:center;padding:12px 0;border-top:1px solid var(--line,rgba(127,127,127,.25));font-size:17px}
+.bars .b.messy{grid-template-columns:minmax(0,290px) 1fr 48px;font-size:17px;min-height:38px}
+@media (max-width:520px){.bars .b.messy{grid-template-columns:1fr 44px}.bars .b.messy .track{grid-row:2;grid-column:1/3}}
+.evidence-row.head{border-top:0;font-weight:700;padding:0 0 4px;font-size:15px}
+.evidence-row b{font-size:26px;text-align:right}
+.evidence-row span.r{text-align:right}
+@media (max-width:520px){.evidence-row{grid-template-columns:1fr 62px 62px;font-size:16px}.evidence-row b{font-size:22px}}
+.tablewrap{overflow-x:auto} td.ch{white-space:nowrap}
+.nodm{font-size:14px;font-weight:700;color:var(--accent);background:var(--accent-soft);border-radius:6px;padding:2px 7px;white-space:nowrap}
+@media (max-width:640px){.hide-sm{display:none}}
+.bars .b{display:grid;grid-template-columns:150px 1fr 48px;gap:10px;align-items:center;margin:7px 0;font-size:15px}
+.bars .track{height:14px;background:var(--soft);border-radius:999px;overflow:hidden}
+.bars .fill{height:100%;border-radius:999px;background:var(--accent)}
+.bars .fill.alt{background:var(--other)}
+.bars .num{font-weight:700;text-align:right}
+.bars .grp{font-size:12.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:700;margin-top:14px}
+@media (max-width:520px){.bars .b{grid-template-columns:104px 1fr 44px;font-size:14px}}
+.legend{display:flex;gap:16px;flex-wrap:wrap;font-size:16px;color:var(--muted)}
+.legend i{display:inline-block;width:12px;height:12px;border-radius:3px;margin-right:6px;vertical-align:-1px}
+.bandrow{display:grid;grid-template-columns:auto 1fr;gap:18px;align-items:center;padding:16px 0;border-bottom:1px solid var(--line)}
+.bandrow:last-child{border:0}
+.bars .f4{grid-template-columns:150px 1fr 48px 64px 56px}
+.bars .hdr{font-size:15px;color:var(--muted);font-weight:700;text-align:right;margin:0}
+.rng{color:var(--muted);text-align:right;font-size:16px} .alarm{color:var(--muted)}
+.known{font-size:14px;font-weight:700;color:var(--muted);background:var(--soft);border-radius:6px;padding:2px 7px;white-space:nowrap}
+.realbadge em{font-style:normal;font-weight:700;margin-top:2px}
+@media (max-width:640px){.bars .f4{grid-template-columns:104px 1fr 40px 44px}}
+.mono{font-family:ui-monospace,Consolas,monospace;font-size:15.5px}
+.ex{display:flex;flex-direction:column;gap:2px}
+.exv{display:flex;align-items:baseline;gap:6px;margin-top:6px;flex-wrap:wrap} .exv small{white-space:nowrap}
+.hero{align-items:start}
+.exv b{font-size:22px;font-weight:800;line-height:1} .exv small{color:var(--muted);font-size:15px}
+.picker{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:8px}
+.fact{background:var(--soft);border-radius:12px;padding:10px 12px;display:flex;flex-direction:column;gap:2px;min-width:0}
+.fl{font-size:15px;color:var(--muted);font-weight:600}
+.fv{font-size:19px;font-weight:800}
+.fs{font-size:15px;font-weight:700}
+.fs.bad{color:var(--likely)} .fs.mid{color:var(--possible)} .fs.ok{color:var(--unlikely)}
+.realbadge{display:inline-flex;flex-direction:column;border-radius:14px;padding:10px 16px;border:2px solid}
+.realbadge span{font-size:14px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.realbadge b{font-size:19px}
+.realbadge.yes{border-color:var(--likely);background:var(--likely-soft)} .realbadge.yes b{color:var(--likely)}
+.realbadge.no{border-color:var(--unlikely);background:var(--unlikely-soft)} .realbadge.no b{color:var(--unlikely)}
+.live{display:flex;align-items:center;gap:10px;flex-wrap:wrap;background:var(--soft);border-radius:14px;padding:12px 14px;font-size:17px}
+.live b{font-size:22px}
+.edit-hint{font-weight:600;margin:12px 0 14px}
+.wi{font:inherit;font-size:16.5px;color:var(--ink);width:100%;display:grid;grid-template-columns:26px 1fr auto;gap:12px;align-items:center;text-align:left;background:var(--card);border:1.5px solid var(--line);border-radius:14px;padding:12px 14px;margin-top:8px;cursor:pointer}
+.wi[aria-pressed="true"]{border-color:var(--accent);background:var(--accent-soft)}
+.wi .box{width:24px;height:24px;border-radius:7px;border:2px solid var(--accent);display:grid;place-items:center;font-weight:800;color:var(--accent-ink)}
+.wi[aria-pressed="true"] .box{background:var(--accent)}
+.delta{font-weight:800;font-size:16px;white-space:nowrap}
+.delta.dn{color:var(--unlikely)} .delta.upd{color:var(--likely)}
+.wi-result{display:grid;grid-template-columns:1fr auto 1fr;gap:12px;align-items:center;margin-top:14px;border-radius:16px;padding:16px;background:var(--soft)}
+.wi-num{font-size:36px;font-weight:800;line-height:1.1;margin:2px 0 6px} .wi-num small{font-size:16px;font-weight:700;color:var(--muted)}
+.wi-arrow{font-size:30px;font-weight:800;color:var(--muted)}
+footer{border-top:1px solid var(--line);padding:24px 0;color:var(--muted);font-size:16px}
+.messy-row{display:grid;grid-template-columns:1fr 104px 88px 88px;gap:12px;align-items:center;padding:12px 0;border-top:1px solid var(--line);font-size:17px}
+.messy-row.head{border-top:0;font-weight:700;padding:0 0 4px;font-size:16px}
+.messy-row b,.messy-row span.r{text-align:right}
+.messy-row b{font-size:22px}
+@media (max-width:560px){.messy-row{grid-template-columns:1fr 64px 60px 60px;font-size:16px;gap:8px}.messy-row.head{font-size:14px}}
+.guide{margin:0;padding:10px 12px 6px}
+.exn{display:inline-flex;align-items:baseline;gap:6px;white-space:nowrap}
+.linkish{font:inherit;font-weight:700;color:var(--accent-ink);background:none;border:0;padding:0;text-decoration:underline;cursor:pointer}
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap bar">
+    <a class="brand" href="#home" data-go="home"><span class="drop" aria-hidden="true"></span>SilentCKD</a>
+    <nav aria-label="Main">
+      <button data-go="home">Home</button>
+      <button data-go="check">Check a patient</button>
+      <button data-go="clinic">Clinic list</button>
+      <button data-go="trust">Is it accurate and fair?</button>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+
+<section class="view" id="view-home">
+  <div class="hero">
+    <div>
+      <div class="eyebrow">For GP clinics and care teams</div>
+      <h1>1 in 5 adults with diabetes or high blood pressure has kidney damage. Most don't know.</h1>
+      <p class="lead">SilentCKD reads a routine check-up record and answers one question: <b>is this patient likely to have hidden kidney damage, and should they be first in line for a urine test?</b></p>
+      <p style="margin-top:14px">"Kidney damage" here means protein leaking into the urine, measured by a urine ACR of 30 or more. It is often the first measurable sign of chronic kidney disease, and the earliest point at which a clinic can act.</p>
+      <div class="row" style="margin-top:20px">
+        <button class="btn" data-go="check">Check a patient</button>
+        <button class="btn ghost" data-go="clinic">See a clinic list</button>
+      </div>
+      <div class="eyebrow" style="margin-top:36px">Does it work?</div>
+      <h3>Tested on two separate groups of people, then followed for 10 years</h3>
+      <div class="stack" id="home-proof" style="margin-top:12px"></div>
+      <div class="row" style="margin-top:14px"><button class="btn ghost" data-go="trust">See all the results, including where it is weak</button></div>
+    </div>
+    <div id="hero-demo" aria-label="Example result"></div>
+  </div>
+
+  <div class="section">
+    <div class="eyebrow">The problem</div>
+    <h2>Kidney damage is silent, and the usual blood test misses most of it</h2>
+    <div class="grid g4" style="margin-top:16px">
+      <div class="card stat"><div class="big-num">85 <small>in 100</small></div><p>people with kidney damage have never been told they have kidney disease.</p></div>
+      <div class="card stat"><div class="big-num">72 <small>in 100</small></div><p>people with kidney damage have a <b>normal kidney blood test</b>. Only a urine test shows it.</p></div>
+      <div class="card stat"><div class="big-num">1 <small>in 3</small></div><p>people with kidney damage have <b>no diabetes</b> and a normal blood test, so they are the least likely to be tested.</p></div>
+      <div class="card stat"><div class="big-num">4 <small>in 100</small></div><p>people with high blood pressure get the urine test within two years. With diabetes, it's 35 in 100. <a href="https://pubmed.ncbi.nlm.nih.gov/34365812/" target="_blank" rel="noopener">Source</a></p></div>
+    </div>
+    <p style="margin-top:14px">The urine test (called ACR) is cheap and quick but often skipped. Found early, kidney damage can be slowed with treatment. The first three figures come from 13,506 adults with diabetes or high blood pressure in a US national health survey (NHANES).</p>
+  </div>
+
+  <div class="section">
+    <div class="eyebrow">How it works</div>
+    <h2>Three steps, using what's already on file</h2>
+    <div class="grid g3 steps" style="margin-top:16px">
+      <div class="card"><span class="num">1</span><h3>Use what's already on file</h3><p class="muted">Age, blood pressure, blood sugar, a kidney blood test and a few yes/no questions. Blanks are fine.</p></div>
+      <div class="card"><span class="num">2</span><h3>Get a direct answer</h3><p class="muted"><b>Likely</b>, <b>Possible</b> or <b>Unlikely</b>, shown as "X in 100 people with a record like this have kidney damage".</p></div>
+      <div class="card"><span class="num">3</span><h3>See why, and what to review</h3><p class="muted">The main reasons in plain words, and points for the doctor to review. Never an order.</p></div>
+    </div>
+  </div>
+
+  <div class="section grid g2">
+    <div class="card">
+      <div class="eyebrow">Safety by design</div>
+      <h3>A prompt for a test, not a diagnosis</h3>
+      <ul class="clean">
+        <li>The only action it suggests is a <b>urine test</b>, or a doctor's review if the kidney blood test is low. A doctor makes every decision.</li>
+        <li>It shows its reasons, so staff can question any answer.</li>
+        <li>It warns when a patient is <b>unusual</b> compared with the people it learned from.</li>
+        <li>It never uses race. Kidney function uses the 2021 race-free equation.</li>
+        <li>Everything runs in your browser. No patient data leaves the page.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="eyebrow">Honest limits</div>
+      <h3>What it can't do</h3>
+      <ul class="clean">
+        <li><b>It finds damage that is already there.</b> We could follow patients for deaths over 10 years, but not for new kidney disease, so it isn't proven to predict that.</li>
+        <li>It has only been tested on US survey data, not on a real hospital's records. A clinic should check it on its own patients first.</li>
+        <li>"Kidney damage" here means one raised urine result. Doctors confirm with a repeat test.</li>
+        <li>It is weaker for people with high blood pressure only: it catches 67 in 100 of their kidney damage, against 93 in 100 for people with diabetes.</li>
+        <li>It decides who to test first. It doesn't replace the yearly urine test guidelines already recommend for diabetes.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="view" id="view-check">
+  <div class="row" style="justify-content:space-between;align-items:flex-end">
+    <h2>Check a patient</h2>
+    <button class="btn ghost sm" id="back-clinic" hidden>Back to clinic list</button>
+  </div>
+  <p>Pick an example or type in a record. The answer updates as you type. For adults 20 or over with diabetes or high blood pressure. Leave numbers blank if you don't know them. A Yes/No left blank counts as No.</p>
+  <div class="check" style="margin-top:18px">
+    <div class="card">
+      <div class="eyebrow">Example patients <span class="muted" style="text-transform:none;letter-spacing:0;font-weight:500;font-size:15px">(real people from a national survey, names made up)</span></div>
+      <div class="examples" id="examples"></div>
+      <div class="live" id="live" aria-live="polite"></div>
+      <p class="edit-hint">Change any detail below. The answer updates straight away.</p>
+      <form id="form" autocomplete="off">
+        <div class="two">
+          <div class="f"><label class="lab" for="f-age">Age</label><input id="f-age" type="number" inputmode="numeric" data-k="age"></div>
+          <div class="f"><span class="lab">Sex</span><div class="seg" data-k="sex"><button type="button" data-v="F">Female</button><button type="button" data-v="M">Male</button></div></div>
+        </div>
+        <div class="f"><label class="lab" for="f-sbp">Blood pressure <span class="hint">top / bottom number</span></label>
+          <div class="two"><input id="f-sbp" type="number" inputmode="numeric" data-k="systolic_bp" placeholder="e.g. 140"><input type="number" inputmode="numeric" data-k="diastolic_bp" placeholder="e.g. 85" aria-label="Blood pressure bottom number"></div></div>
+        <div class="f"><label class="lab" for="f-cr">Kidney blood test: creatinine <span class="hint">mg/dL or µmol/L</span></label><input id="f-cr" type="number" step="any" data-k="creatinine_mg_dl" placeholder="e.g. 0.9 or 80"></div>
+        <div class="f"><label class="lab" for="f-a1c">Blood sugar: HbA1c <span class="hint">% or mmol/mol</span></label><input id="f-a1c" type="number" step="any" data-k="hba1c_percent" placeholder="e.g. 6.2"></div>
+        <div class="yn"><span>Has diabetes?</span><div class="seg" data-k="diagnosed_diabetes"><button type="button" data-v="1">Yes</button><button type="button" data-v="0">No</button></div></div>
+        <div class="f" id="dm-years" style="margin-top:10px"><label class="lab" for="f-dmy">Years with diabetes</label><input id="f-dmy" type="number" step="any" data-k="diabetes_years"></div>
+        <div class="yn"><span>Takes blood pressure medicine?</span><div class="seg" data-k="on_bp_meds"><button type="button" data-v="1">Yes</button><button type="button" data-v="0">No</button></div></div>
+        <div class="yn"><span>Had heart disease or a stroke?</span><div class="seg" data-k="heart_disease_or_stroke"><button type="button" data-v="1">Yes</button><button type="button" data-v="0">No</button></div></div>
+        <div class="yn"><span>Smokes?</span><div class="seg" data-k="current_smoker"><button type="button" data-v="1">Yes</button><button type="button" data-v="0">No</button></div></div>
+        <details>
+          <summary>More details (optional)</summary>
+          <div style="margin-top:12px">
+            <div class="two">
+              <div class="f"><label class="lab" for="o1">BMI</label><input id="o1" type="number" step="any" data-k="bmi"></div>
+              <div class="f"><label class="lab" for="o2">Waist (cm)</label><input id="o2" type="number" step="any" data-k="waist_cm"></div>
+              <div class="f"><label class="lab" for="o3">Albumin (g/dL)</label><input id="o3" type="number" step="any" data-k="albumin_g_dl"></div>
+              <div class="f"><label class="lab" for="o4">HDL cholesterol</label><input id="o4" type="number" step="any" data-k="hdl"></div>
+              <div class="f"><label class="lab" for="o5">Total cholesterol</label><input id="o5" type="number" step="any" data-k="total_cholesterol"></div>
+              <div class="f"><label class="lab" for="o6">Triglycerides</label><input id="o6" type="number" step="any" data-k="triglycerides"></div>
+              <div class="f"><label class="lab" for="o7">Uric acid</label><input id="o7" type="number" step="any" data-k="uric_acid"></div>
+              <div class="f"><label class="lab" for="o8">Urea nitrogen (BUN)</label><input id="o8" type="number" step="any" data-k="bun"></div>
+              <div class="f"><label class="lab" for="o9">Potassium</label><input id="o9" type="number" step="any" data-k="potassium"></div>
+            </div>
+            <div class="yn"><span>Uses insulin?</span><div class="seg" data-k="on_insulin"><button type="button" data-v="1">Yes</button><button type="button" data-v="0">No</button></div></div>
+            <div class="yn"><span>Takes diabetes pills?</span><div class="seg" data-k="on_diabetes_pills"><button type="button" data-v="1">Yes</button><button type="button" data-v="0">No</button></div></div>
+            <div class="yn"><span>Told they have high blood pressure?</span><div class="seg" data-k="diagnosed_hypertension"><button type="button" data-v="1">Yes</button><button type="button" data-v="0">No</button></div></div>
+            <div class="yn"><span>High cholesterol?</span><div class="seg" data-k="high_cholesterol"><button type="button" data-v="1">Yes</button><button type="button" data-v="0">No</button></div></div>
+            <div class="yn"><span>Takes cholesterol medicine?</span><div class="seg" data-k="on_cholesterol_meds"><button type="button" data-v="1">Yes</button><button type="button" data-v="0">No</button></div></div>
+            <div class="yn"><span>Already told they have kidney disease?</span><div class="seg" data-k="told_kidney_disease"><button type="button" data-v="1">Yes</button><button type="button" data-v="0">No</button></div></div>
+          </div>
+        </details>
+        <div class="row" style="margin-top:16px"><button type="button" class="btn ghost sm" id="clear">Start a blank record</button></div>
+      </form>
+    </div>
+    <div id="result" class="stack"></div>
+  </div>
+</section>
+
+<section class="view" id="view-clinic">
+  <div class="row" style="justify-content:space-between;align-items:flex-end">
+    <div><h2>Clinic list: who to test first</h2>
+      <p id="clinic-src" style="margin:4px 0 0;max-width:680px">Loading the sample clinic…</p></div>
+    <div class="row">
+      <label class="btn ghost sm" for="upload" style="cursor:pointer">Upload your own list</label>
+      <input id="upload" type="file" accept=".csv,text/csv,.json,.ndjson,application/json" multiple hidden>
+      <button class="btn ghost sm" id="sample" hidden>Back to sample clinic</button>
+      <button class="btn sm" id="download">Download this list</button>
+    </div>
+  </div>
+  <div id="clinic-msg" class="note" style="margin-top:14px" hidden></div>
+  <div class="tiles" id="tiles" style="margin-top:18px"></div>
+  <div id="clinic-insight" class="grid g2" style="margin-top:16px"></div>
+  <div class="card planner" id="planner" style="margin-top:16px">
+    <div class="eyebrow">Plan this clinic's tests</div>
+    <h3>How many urine tests can you do?</h3>
+    <div class="plan-inputs">
+      <label class="plan-slider"><span><b id="plan-n-label"></b></span>
+        <input type="range" id="plan-n" min="1" step="1"></label>
+      <label class="plan-cost"><span>Cost of one test <span class="hint">example, type yours</span></span>
+        <span class="plan-money">$<input type="number" id="plan-cost" min="0" step="1" value="15"></span></label>
+    </div>
+    <div class="grid g3" id="plan-out" style="margin-top:16px"></div>
+    <p id="plan-note" style="margin:14px 0 0"></p>
+  </div>
+  <div class="card" style="margin-top:16px;padding:8px 8px 4px">
+    <p class="guide" id="list-guide"></p>
+    <div class="tablewrap"><table>
+      <thead><tr><th>#</th><th>Patient</th><th class="hide-sm">Age, sex</th><th>Answer</th><th>Chance</th><th class="hide-sm">Main reason</th></tr></thead>
+      <tbody id="tbody"></tbody>
+    </table></div>
+    <div class="row" style="justify-content:center;padding:12px"><button class="btn ghost sm" id="more" hidden>Show more</button></div>
+  </div>
+  <details class="card" style="margin-top:16px">
+    <summary>What should my file look like?</summary>
+    <p style="margin-top:10px">A spreadsheet saved as CSV, one patient per row. Only <b>age</b> and <b>sex</b> are required; every other column helps. Column names are matched automatically (for example "SBP", "Systolic BP" and "systolic" all work), and common unit mix-ups, such as creatinine in µmol/L, are fixed for you.</p>
+    <p class="mono" style="overflow-wrap:anywhere">patient_id, age, sex, systolic_bp, diastolic_bp, diagnosed_diabetes, diabetes_years, hba1c_percent, on_bp_meds, heart_disease_or_stroke, current_smoker, creatinine_mg_dl, …</p>
+    <button class="btn ghost sm" id="template">Download the sample file as a template</button>
+    <h3 style="margin-top:20px">Got health-record exports instead?</h3>
+    <p>You can also upload <b>FHIR R4</b> files, the standard format hospital record systems export (.json or .ndjson, one or many files). SilentCKD pulls out the blood pressure, lab results, diagnoses and medicines, and leaves out anyone who is under 20, has died, or has neither diabetes nor high blood pressure. Nothing leaves your browser.</p>
+    <button class="btn ghost sm" id="fhir-sample">Try a sample health-record file</button>
+    <p style="margin-top:10px">The sample is computer-generated by <a href="https://github.com/synthetichealth/synthea" target="_blank" rel="noopener">Synthea</a>. These are not real people, so it only shows the file can be read. It says nothing about accuracy.</p>
+  </details>
+</section>
+
+<section class="view" id="view-trust">
+  <h2>Is it accurate and fair?</h2>
+  <p class="lead">We built it on 10,923 adults from a US national health survey (2011–2020), then tested it on <b>2,583 newer adults from 2021–2023</b> whose data was never used to train it. Here's how it did.</p>
+  <div class="grid g4" style="margin-top:18px" id="trust-tiles"></div>
+  <div class="section card">
+    <div class="eyebrow">What each answer means</div>
+    <h3>Of 100 patients who got each answer, how many really had kidney damage?</h3>
+    <p><b>Likely</b> means a chance of 50 in 100 or more. <b>Possible</b> means about 13 to 49 in 100 (from about 9 in 100 for under 45s). <b>Unlikely</b> is anything lower. The bar for Possible is low on purpose: the urine test is cheap, and at this bar about 8 in 10 people with kidney damage get flagged.</p>
+    <div id="bands"></div>
+  </div>
+  <div class="section card" id="locked-card"></div>
+
+  <div class="section card">
+    <div class="eyebrow">Finds more with the same tests</div>
+    <h3>If a clinic can only test some patients, who should go first?</h3>
+    <p class="muted">The usual approach tests people with diabetes first. SilentCKD tests the highest-chance people first. Bars show how many of every 100 people with kidney damage get found.</p>
+    <div class="legend"><span><i style="background:var(--accent)"></i>SilentCKD order</span><span><i style="background:var(--other)"></i>Diabetes first</span></div>
+    <div id="capacity" class="bars" style="margin-top:8px"></div>
+  </div>
+
+  <div class="section card" id="missed-card"></div>
+
+  <div class="section card" id="outcomes-card"></div>
+
+  <div class="section card" id="messy-card"></div>
+
+  <div class="section">
+    <div class="eyebrow">Fairness</div>
+    <h2>Does it work as well for everyone?</h2>
+    <div class="grid g3" style="margin-top:14px">
+      <div class="card"><h3>No race in the model</h3><p class="muted">Race is never an input. When we tried adding it, accuracy barely changed (less than 0.3%), so it isn't needed.</p></div>
+      <div class="card"><h3>Race-free kidney test</h3><p class="muted">We use the 2021 kidney equation with no race adjustment. The old one hid low kidney function in <b>158 Black patients</b> in our data.</p></div>
+      <div class="card" id="young-card"></div>
+    </div>
+    <div class="card" style="margin-top:16px">
+      <h3>People with kidney damage who were caught, by group</h3>
+      <p><b>Caught:</b> of 100 people in the group with kidney damage, how many got Likely or Possible. <b>Range:</b> where the true figure probably lies. <b>False alarms:</b> of 100 people in the group without kidney damage, how many were flagged anyway.</p>
+      <div id="fair" class="bars"></div>
+      <div class="note" style="margin-top:14px"><b>What is still weak:</b> it catches the fewest cases in people with <b>high blood pressure only</b>, and false alarms are high for people with diabetes, who should be tested every year anyway. Small groups, such as the 32 Asian patients with kidney damage, have wide ranges, so their numbers are less certain.</div>
+    </div>
+  </div>
+
+  <div class="section card">
+    <div class="eyebrow">Read the full evidence</div>
+    <h3>Model card, validation, comparison and deployment plan</h3>
+    <p>Every number on this page, how it compares with existing kidney tools, and how it would reach a real clinic.</p>
+    <div class="row"><button class="btn ghost sm" id="dl-card">Download the model card</button><button class="btn ghost sm" id="dl-report">Download the validation report</button><button class="btn ghost sm" id="dl-related">Download the comparison with existing tools</button><button class="btn ghost sm" id="dl-plan">Download the deployment plan</button></div>
+  </div>
+
+  <details class="section card">
+    <summary>Technical details for reviewers</summary>
+    <div class="grid g2" style="margin-top:14px">
+      <div>
+        <h3>Data</h3>
+        <p class="small">NHANES 2011–2023 (5 survey cycles, CDC public data). Adults 20+ with diabetes (diagnosed or HbA1c ≥6.5%) or hypertension (diagnosed, treated, or ≥140/90), with urine ACR and serum creatinine; pregnant participants excluded. n = 13,506. Outcome: albuminuria, urine ACR ≥30 mg/g. No urine values are used as inputs.</p>
+        <h3>Model</h3>
+        <p class="small">XGBoost, 400 trees, depth 3, learning rate 0.03, monotone constraints (risk can only rise with blood pressure, HbA1c, diabetes years and age, and only fall with eGFR). 25 inputs, no race. Explanations are exact TreeSHAP values computed in the browser (matching XGBoost to 1e-6), grouped into plain-language topics. Answers: Likely at 50% or more; Possible at 13.0% or more (8.6% under age 45). Cut-off values were fitted on development data, but the simplified answer rules were chosen after reviewing 2021–2023 results, so 2021–2023 answer-level results are slightly optimistic; the locked test below is the clean estimate. Whatever the score, an eGFR below 60 prompts a doctor's review. "What if" options that would raise the chance are hidden, because BMI and smoking have no monotone constraint and such comparisons are artefacts.</p>
+        <h3>Short-form model</h3>
+        <p class="small">Used when more than 2 of 9 optional measures are blank. 11 inputs, trained with blood pressure, HbA1c and creatinine randomly blanked. AUROC 0.749 on 2021–2023 (0.696 with no blood pressure, HbA1c or creatinine), predicted prevalence 19.8% vs 19.0% observed.</p>
+      </div>
+      <div>
+        <h3>Results on 2021–2023 (temporal hold-out, n = 2,583)</h3>
+        <ul class="clean small">
+          <li>AUROC 0.754 (95% CI 0.730–0.778); survey-weighted 0.765</li>
+          <li>Logistic regression with the same inputs 0.728; XGBoost gain 0.026 (paired bootstrap 95% CI 0.015–0.037)</li>
+          <li>AUPRC 0.478 (prevalence 0.19); Brier score 0.129</li>
+          <li>Calibration slope 0.97, intercept −0.07</li>
+          <li>Same number of tests as diabetes-first (886): finds 63.4% of cases vs 54.5%</li>
+          <li>Single cut-off 0.130: sensitivity 0.79, specificity 0.55, PPV 0.29</li>
+          <li>Unusual-record warning: mean distance to 100 nearest of 6,000 reference patients above the 99th percentile</li>
+        </ul>
+        <h3>Locked external test, 2007–2010 (n = 2,469)</h3>
+        <ul class="clean small">
+          <li>Models and answer rules frozen before this data was run; these cycles were used for nothing else</li>
+          <li>AUROC 0.749 (95% CI 0.723–0.774); calibration slope 0.95, intercept −0.17</li>
+          <li>This resolves the known limit of the 2021–2023 answer-level numbers: those rules were adjusted after viewing that test set</li>
+        </ul>
+        <h3>Linked mortality through 2019 (n = 2,466, 555 deaths, median 9.8 y)</h3>
+        <ul class="clean small">
+          <li>Cox models adjusted for age and sex. Likely vs Unlikely HR 4.2 (3.15–5.59); Possible 1.72 (1.38–2.15)</li>
+          <li>ACR &lt;30 and eGFR ≥60 today (n = 1,765): flagged vs Unlikely, heart, stroke, diabetes or kidney death HR 2.30 (1.42–3.74)</li>
+          <li>Unweighted. Only 7 kidney deaths, so no kidney-specific claim</li>
+        </ul>
+      </div>
+    </div>
+  </details>
+</section>
+</main>
+
+<footer><div class="wrap">SilentCKD: a prototype for DataNova 2026 (DN-HC-01, early risk stratification for chronic disease). Not a medical device. Built by David Wong, with Claude Code as a coding assistant. Data: CDC NHANES.</div></footer>
+
+<script src="model.js"></script>
+<script src="engine.js"></script>
+<script src="fhir.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

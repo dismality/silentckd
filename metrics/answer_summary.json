@@ -1,0 +1,305 @@
+{
+ "n_test": 2583,
+ "prevalence": 19,
+ "bands": {
+  "likely": {
+   "share": 7,
+   "have": 65,
+   "mean_pred": 67,
+   "share_of_cases": 24
+  },
+  "possible": {
+   "share": 47,
+   "have": 23,
+   "mean_pred": 23,
+   "share_of_cases": 57
+  },
+  "unlikely": {
+   "share": 45,
+   "have": 8,
+   "mean_pred": 9,
+   "share_of_cases": 19
+  }
+ },
+ "fairness": [
+  {
+   "dim": "Age",
+   "group": "20–44",
+   "cases": 42,
+   "caught": 95,
+   "ci": [
+    88,
+    100
+   ],
+   "false_alarm": 42,
+   "right_when_flagged": 24
+  },
+  {
+   "dim": "Age",
+   "group": "45–64",
+   "cases": 170,
+   "caught": 71,
+   "ci": [
+    64,
+    78
+   ],
+   "false_alarm": 36,
+   "right_when_flagged": 29
+  },
+  {
+   "dim": "Age",
+   "group": "65+",
+   "cases": 280,
+   "caught": 85,
+   "ci": [
+    80,
+    89
+   ],
+   "false_alarm": 60,
+   "right_when_flagged": 29
+  },
+  {
+   "dim": "Sex",
+   "group": "Men",
+   "cases": 259,
+   "caught": 82,
+   "ci": [
+    77,
+    86
+   ],
+   "false_alarm": 50,
+   "right_when_flagged": 30
+  },
+  {
+   "dim": "Sex",
+   "group": "Women",
+   "cases": 233,
+   "caught": 80,
+   "ci": [
+    75,
+    85
+   ],
+   "false_alarm": 47,
+   "right_when_flagged": 26
+  },
+  {
+   "dim": "Ethnicity",
+   "group": "Asian",
+   "cases": 32,
+   "caught": 75,
+   "ci": [
+    59,
+    88
+   ],
+   "false_alarm": 39,
+   "right_when_flagged": 40
+  },
+  {
+   "dim": "Ethnicity",
+   "group": "Black",
+   "cases": 91,
+   "caught": 84,
+   "ci": [
+    76,
+    91
+   ],
+   "false_alarm": 62,
+   "right_when_flagged": 29
+  },
+  {
+   "dim": "Ethnicity",
+   "group": "Mexican American",
+   "cases": 28,
+   "caught": 82,
+   "ci": [
+    68,
+    96
+   ],
+   "false_alarm": 54,
+   "right_when_flagged": 25
+  },
+  {
+   "dim": "Ethnicity",
+   "group": "Other Hispanic",
+   "cases": 43,
+   "caught": 86,
+   "ci": [
+    74,
+    95
+   ],
+   "false_alarm": 48,
+   "right_when_flagged": 28
+  },
+  {
+   "dim": "Ethnicity",
+   "group": "Other / multiracial",
+   "cases": 39,
+   "caught": 90,
+   "ci": [
+    79,
+    97
+   ],
+   "false_alarm": 51,
+   "right_when_flagged": 35
+  },
+  {
+   "dim": "Ethnicity",
+   "group": "White",
+   "cases": 259,
+   "caught": 78,
+   "ci": [
+    73,
+    83
+   ],
+   "false_alarm": 45,
+   "right_when_flagged": 26
+  },
+  {
+   "dim": "Household income",
+   "group": "Higher",
+   "cases": 102,
+   "caught": 75,
+   "ci": [
+    67,
+    83
+   ],
+   "false_alarm": 38,
+   "right_when_flagged": 22
+  },
+  {
+   "dim": "Household income",
+   "group": "Lower",
+   "cases": 117,
+   "caught": 85,
+   "ci": [
+    79,
+    91
+   ],
+   "false_alarm": 56,
+   "right_when_flagged": 31
+  },
+  {
+   "dim": "Household income",
+   "group": "Middle",
+   "cases": 199,
+   "caught": 80,
+   "ci": [
+    74,
+    86
+   ],
+   "false_alarm": 52,
+   "right_when_flagged": 30
+  },
+  {
+   "dim": "Condition",
+   "group": "Has diabetes",
+   "cases": 268,
+   "caught": 93,
+   "ci": [
+    89,
+    96
+   ],
+   "false_alarm": 76,
+   "right_when_flagged": 35
+  },
+  {
+   "dim": "Condition",
+   "group": "High blood pressure only",
+   "cases": 224,
+   "caught": 67,
+   "ci": [
+    61,
+    73
+   ],
+   "false_alarm": 37,
+   "right_when_flagged": 22
+  }
+ ],
+ "overall_caught": 81,
+ "overall_flagged": 55,
+ "single_cutoff_caught": 79,
+ "young": {
+  "cases": 42,
+  "before": 69,
+  "after": 95,
+  "ci": [
+   88,
+   100
+  ]
+ },
+ "missed_group": {
+  "n": 1504,
+  "cases": 174,
+  "share_of_all_cases": 35,
+  "auroc": 0.706,
+  "caught": 59,
+  "flagged": 35,
+  "right_when_flagged": 20,
+  "base_rate": 12
+ },
+ "likely_makeup": {
+  "egfr_below_60": 55,
+  "has_diabetes": 86,
+  "told_kidney": 24,
+  "usually_missed": 4
+ },
+ "tests_per_case": {
+  "likely": 1.5,
+  "likely_or_possible": 3.5,
+  "everyone": 5.2
+ },
+ "short_model": {
+  "auroc": 0.749,
+  "scenarios": [
+   {
+    "scenario": "all short-form fields",
+    "auroc": 0.749,
+    "mean_pred": 0.198,
+    "observed": 0.19,
+    "likely_pred": 0.684,
+    "likely_obs": 0.615,
+    "likely_share": 0.07
+   },
+   {
+    "scenario": "no HbA1c",
+    "auroc": 0.74,
+    "mean_pred": 0.196,
+    "observed": 0.19,
+    "likely_pred": 0.679,
+    "likely_obs": 0.659,
+    "likely_share": 0.051
+   },
+   {
+    "scenario": "no blood pressure",
+    "auroc": 0.723,
+    "mean_pred": 0.207,
+    "observed": 0.19,
+    "likely_pred": 0.647,
+    "likely_obs": 0.565,
+    "likely_share": 0.06
+   },
+   {
+    "scenario": "no creatinine",
+    "auroc": 0.736,
+    "mean_pred": 0.207,
+    "observed": 0.19,
+    "likely_pred": 0.665,
+    "likely_obs": 0.609,
+    "likely_share": 0.065
+   },
+   {
+    "scenario": "age, sex and yes/no answers only",
+    "auroc": 0.696,
+    "mean_pred": 0.219,
+    "observed": 0.19,
+    "likely_pred": 0.554,
+    "likely_obs": 0.522,
+    "likely_share": 0.036
+   }
+  ]
+ },
+ "full_with_two_labs_missing": {
+  "auroc": 0.753,
+  "mean_pred": 0.206
+ }
+}

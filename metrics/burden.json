@@ -1,0 +1,10 @@
+{
+  "cohort_n": 13506,
+  "dev_n": 10923,
+  "test_n": 2583,
+  "weighted_albuminuria_prev": 0.1752857248492596,
+  "weighted_ckd_prev": 0.24604041067065072,
+  "weighted_ckd_unaware": 0.8488154682190469,
+  "weighted_ckd_invisible_to_blood_test": 0.5498362486267059,
+  "unweighted_albuminuria_with_normal_egfr_share": 0.715679190751445
+}

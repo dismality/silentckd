@@ -1,0 +1,120 @@
+threshold=0.130
+dev OOF  xgb AUROC 0.755  lr 0.739
+TEST     xgb AUROC 0.754 [0.7302302508926425, 0.7781925693576803] AUPRC 0.478  lr AUROC 0.728
+TEST     sens 0.787 spec 0.552 ppv 0.293 flagged 0.512  calib int -0.07 slope 0.97
+diabetes rule {'sensitivity': 0.5447154471544715, 'flagged_share': 0.3430120015485869, 'ppv': 0.30248306997742663} model same budget {'flagged': 886, 'sensitivity': 0.6341463414634146, 'ppv': 0.35214446952595935}
+{
+ "cohort_n": 13506,
+ "dev_n": 10923,
+ "test_n": 2583,
+ "weighted_albuminuria_prev": 0.1752857248492596,
+ "weighted_ckd_prev": 0.24604041067065072,
+ "weighted_ckd_unaware": 0.8488154682190469,
+ "weighted_ckd_invisible_to_blood_test": 0.5498362486267059,
+ "unweighted_albuminuria_with_normal_egfr_share": 0.715679190751445
+}
+{
+ "egfr_reclassification": {
+  "black_participants": 3368,
+  "reclassified_to_egfr_below_60_by_2021_equation": 158,
+  "black_with_egfr_below_60_2009": 459,
+  "black_with_egfr_below_60_2021": 617,
+  "mean_egfr_black_2009": 88.37993250185673,
+  "mean_egfr_black_2021": 79.87445223721325
+ },
+ "mitigation_age": {
+  "20-44": {
+   "n_test": 340,
+   "threshold": 0.08574613183736801,
+   "sens_global": 0.6904761904761905,
+   "sens_group": 0.9523809523809523,
+   "flagged_global": 0.23529411764705882,
+   "flagged_group": 0.4852941176470588
+  },
+  "45-64": {
+   "n_test": 995,
+   "threshold": 0.1144077256321907,
+   "sens_global": 0.711764705882353,
+   "sens_group": 0.7764705882352941,
+   "flagged_global": 0.42412060301507537,
+   "flagged_group": 0.5185929648241207
+  },
+  "65+": {
+   "n_test": 1248,
+   "threshold": 0.17894187569618225,
+   "sens_global": 0.8464285714285714,
+   "sens_group": 0.7,
+   "flagged_global": 0.6578525641025641,
+   "flagged_group": 0.4735576923076923
+  }
+ },
+ "mitigation_race": {
+  "Asian": {
+   "n_test": 125,
+   "threshold": 0.10548746585845947,
+   "sens_global": 0.75,
+   "sens_group": 0.8125,
+   "flagged_global": 0.472,
+   "flagged_group": 0.568
+  },
+  "Black": {
+   "n_test": 386,
+   "threshold": 0.14456747472286224,
+   "sens_global": 0.7802197802197802,
+   "sens_group": 0.7472527472527473,
+   "flagged_global": 0.6062176165803109,
+   "flagged_group": 0.5414507772020726
+  },
+  "Mexican American": {
+   "n_test": 156,
+   "threshold": 0.13149166107177734,
+   "sens_global": 0.75,
+   "sens_group": 0.7142857142857143,
+   "flagged_global": 0.532051282051282,
+   "flagged_group": 0.5192307692307693
+  },
+  "Other Hispanic": {
+   "n_test": 238,
+   "threshold": 0.11730694025754929,
+   "sens_global": 0.8604651162790697,
+   "sens_group": 0.8604651162790697,
+   "flagged_global": 0.5042016806722689,
+   "flagged_group": 0.5966386554621849
+  },
+  "Other/Multiracial": {
+   "n_test": 164,
+   "threshold": 0.12063682079315186,
+   "sens_global": 0.8717948717948718,
+   "sens_group": 0.8974358974358975,
+   "flagged_global": 0.5609756097560976,
+   "flagged_group": 0.6097560975609756
+  },
+  "White": {
+   "n_test": 1514,
+   "threshold": 0.13250955939292908,
+   "sens_global": 0.7722007722007722,
+   "sens_group": 0.7567567567567568,
+   "flagged_global": 0.4854689564068692,
+   "flagged_group": 0.47556142668428003
+  }
+ }
+}
+         dimension              group     n  prevalence  auroc  sensitivity    fpr    ppv  mean_pred
+0   Race/ethnicity              Asian  1179       0.205  0.728        0.715  0.412  0.309      0.179
+1   Race/ethnicity              Black  3368       0.221  0.754        0.827  0.522  0.310      0.230
+2   Race/ethnicity   Mexican American  1466       0.237  0.759        0.804  0.457  0.353      0.208
+3   Race/ethnicity     Other Hispanic  1366       0.184  0.753        0.778  0.451  0.281      0.201
+4   Race/ethnicity  Other/Multiracial   553       0.241  0.766        0.812  0.471  0.353      0.206
+5   Race/ethnicity              White  5574       0.188  0.761        0.798  0.457  0.288      0.197
+6              Sex             Female  6775       0.194  0.733        0.762  0.460  0.286      0.199
+7              Sex               Male  6731       0.216  0.775        0.831  0.478  0.323      0.213
+8              Age              20-44  2373       0.134  0.764        0.610  0.228  0.293      0.131
+9              Age              45-64  5677       0.181  0.746        0.738  0.401  0.290      0.182
+10             Age                65+  5456       0.260  0.733        0.884  0.670  0.317      0.263
+11          Income     High (PIR>3.5)  3585       0.139  0.747        0.735  0.391  0.233      0.170
+12          Income      Low (PIR<1.3)  3760       0.244  0.754        0.807  0.506  0.340      0.227
+13          Income             Middle  4647       0.221  0.753        0.819  0.492  0.320      0.213
+14       Condition     Diabetes + HTN  3457       0.354  0.757        0.953  0.811  0.392      0.348
+15       Condition      Diabetes only  1308       0.200  0.694        0.798  0.566  0.261      0.206
+16       Condition  Hypertension only  8741       0.147  0.709        0.650  0.353  0.240      0.149
+top shap ['sbp', 'hba1c', 'egfr', 'diabetes_years', 'age', 'cvd_history', 'serum_albumin', 'hdl']

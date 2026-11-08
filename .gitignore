@@ -1,0 +1,12 @@
+.venv/
+.wrangler/
+node_modules/
+__pycache__/
+*.pyc
+
+# Rebuilt by download.sh and src/prep.py (the website's demo/data stays in)
+/data/
+
+# Left over from earlier versions; nothing uses them
+metrics/simple_summary.json
+metrics/verdict_bands.json

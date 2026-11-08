@@ -1,0 +1,260 @@
+{
+  "model": [
+    {
+      "tested_pct": 0,
+      "found_pct": 0.0
+    },
+    {
+      "tested_pct": 5,
+      "found_pct": 18.902439024390244
+    },
+    {
+      "tested_pct": 10,
+      "found_pct": 31.097560975609756
+    },
+    {
+      "tested_pct": 15,
+      "found_pct": 39.63414634146341
+    },
+    {
+      "tested_pct": 20,
+      "found_pct": 47.5609756097561
+    },
+    {
+      "tested_pct": 25,
+      "found_pct": 52.84552845528455
+    },
+    {
+      "tested_pct": 30,
+      "found_pct": 58.333333333333336
+    },
+    {
+      "tested_pct": 35,
+      "found_pct": 64.22764227642277
+    },
+    {
+      "tested_pct": 40,
+      "found_pct": 69.51219512195121
+    },
+    {
+      "tested_pct": 45,
+      "found_pct": 73.78048780487805
+    },
+    {
+      "tested_pct": 50,
+      "found_pct": 77.03252032520325
+    },
+    {
+      "tested_pct": 55,
+      "found_pct": 81.70731707317073
+    },
+    {
+      "tested_pct": 60,
+      "found_pct": 84.34959349593495
+    },
+    {
+      "tested_pct": 65,
+      "found_pct": 86.78861788617887
+    },
+    {
+      "tested_pct": 70,
+      "found_pct": 90.4471544715447
+    },
+    {
+      "tested_pct": 75,
+      "found_pct": 92.6829268292683
+    },
+    {
+      "tested_pct": 80,
+      "found_pct": 95.1219512195122
+    },
+    {
+      "tested_pct": 85,
+      "found_pct": 96.95121951219512
+    },
+    {
+      "tested_pct": 90,
+      "found_pct": 98.98373983739837
+    },
+    {
+      "tested_pct": 95,
+      "found_pct": 99.39024390243902
+    },
+    {
+      "tested_pct": 100,
+      "found_pct": 100.0
+    }
+  ],
+  "guideline": [
+    {
+      "tested_pct": 0,
+      "found_pct": 0.0
+    },
+    {
+      "tested_pct": 5,
+      "found_pct": 6.910569105691057
+    },
+    {
+      "tested_pct": 10,
+      "found_pct": 15.853658536585366
+    },
+    {
+      "tested_pct": 15,
+      "found_pct": 21.951219512195124
+    },
+    {
+      "tested_pct": 20,
+      "found_pct": 31.097560975609756
+    },
+    {
+      "tested_pct": 25,
+      "found_pct": 38.82113821138211
+    },
+    {
+      "tested_pct": 30,
+      "found_pct": 47.15447154471545
+    },
+    {
+      "tested_pct": 35,
+      "found_pct": 54.87804878048781
+    },
+    {
+      "tested_pct": 40,
+      "found_pct": 58.536585365853654
+    },
+    {
+      "tested_pct": 45,
+      "found_pct": 61.78861788617886
+    },
+    {
+      "tested_pct": 50,
+      "found_pct": 64.83739837398373
+    },
+    {
+      "tested_pct": 55,
+      "found_pct": 67.47967479674797
+    },
+    {
+      "tested_pct": 60,
+      "found_pct": 71.13821138211382
+    },
+    {
+      "tested_pct": 65,
+      "found_pct": 75.8130081300813
+    },
+    {
+      "tested_pct": 70,
+      "found_pct": 80.48780487804879
+    },
+    {
+      "tested_pct": 75,
+      "found_pct": 83.53658536585365
+    },
+    {
+      "tested_pct": 80,
+      "found_pct": 86.78861788617887
+    },
+    {
+      "tested_pct": 85,
+      "found_pct": 90.04065040650406
+    },
+    {
+      "tested_pct": 90,
+      "found_pct": 92.6829268292683
+    },
+    {
+      "tested_pct": 95,
+      "found_pct": 96.54471544715447
+    },
+    {
+      "tested_pct": 100,
+      "found_pct": 100.0
+    }
+  ],
+  "logistic": [
+    {
+      "tested_pct": 0,
+      "found_pct": 0.0
+    },
+    {
+      "tested_pct": 5,
+      "found_pct": 18.29268292682927
+    },
+    {
+      "tested_pct": 10,
+      "found_pct": 28.65853658536585
+    },
+    {
+      "tested_pct": 15,
+      "found_pct": 38.00813008130081
+    },
+    {
+      "tested_pct": 20,
+      "found_pct": 45.9349593495935
+    },
+    {
+      "tested_pct": 25,
+      "found_pct": 53.04878048780488
+    },
+    {
+      "tested_pct": 30,
+      "found_pct": 58.13008130081301
+    },
+    {
+      "tested_pct": 35,
+      "found_pct": 61.78861788617886
+    },
+    {
+      "tested_pct": 40,
+      "found_pct": 67.6829268292683
+    },
+    {
+      "tested_pct": 45,
+      "found_pct": 70.9349593495935
+    },
+    {
+      "tested_pct": 50,
+      "found_pct": 74.39024390243902
+    },
+    {
+      "tested_pct": 55,
+      "found_pct": 78.65853658536585
+    },
+    {
+      "tested_pct": 60,
+      "found_pct": 81.5040650406504
+    },
+    {
+      "tested_pct": 65,
+      "found_pct": 84.14634146341463
+    },
+    {
+      "tested_pct": 70,
+      "found_pct": 86.99186991869918
+    },
+    {
+      "tested_pct": 75,
+      "found_pct": 89.43089430894308
+    },
+    {
+      "tested_pct": 80,
+      "found_pct": 91.66666666666666
+    },
+    {
+      "tested_pct": 85,
+      "found_pct": 93.90243902439023
+    },
+    {
+      "tested_pct": 90,
+      "found_pct": 95.73170731707317
+    },
+    {
+      "tested_pct": 95,
+      "found_pct": 99.1869918699187
+    },
+    {
+      "tested_pct": 100,
+      "found_pct": 100.0
+    }
+  ]
+}

@@ -1,0 +1,102 @@
+[
+  {
+    "feature": "sbp",
+    "mean_abs_shap": 0.35104599595069885
+  },
+  {
+    "feature": "hba1c",
+    "mean_abs_shap": 0.26306572556495667
+  },
+  {
+    "feature": "egfr",
+    "mean_abs_shap": 0.21271494030952454
+  },
+  {
+    "feature": "diabetes_years",
+    "mean_abs_shap": 0.1501481682062149
+  },
+  {
+    "feature": "age",
+    "mean_abs_shap": 0.1196884736418724
+  },
+  {
+    "feature": "cvd_history",
+    "mean_abs_shap": 0.09022166579961777
+  },
+  {
+    "feature": "serum_albumin",
+    "mean_abs_shap": 0.07694713771343231
+  },
+  {
+    "feature": "hdl",
+    "mean_abs_shap": 0.07174645364284515
+  },
+  {
+    "feature": "bun",
+    "mean_abs_shap": 0.07096987217664719
+  },
+  {
+    "feature": "uric_acid",
+    "mean_abs_shap": 0.06787852197885513
+  },
+  {
+    "feature": "bmi",
+    "mean_abs_shap": 0.057213347405195236
+  },
+  {
+    "feature": "dbp",
+    "mean_abs_shap": 0.055783309042453766
+  },
+  {
+    "feature": "has_diabetes",
+    "mean_abs_shap": 0.05556880682706833
+  },
+  {
+    "feature": "current_smoker",
+    "mean_abs_shap": 0.05531108006834984
+  },
+  {
+    "feature": "potassium",
+    "mean_abs_shap": 0.052021730691194534
+  },
+  {
+    "feature": "dx_hypertension",
+    "mean_abs_shap": 0.04134353995323181
+  },
+  {
+    "feature": "waist",
+    "mean_abs_shap": 0.034348126500844955
+  },
+  {
+    "feature": "total_chol",
+    "mean_abs_shap": 0.029455406591296196
+  },
+  {
+    "feature": "triglycerides",
+    "mean_abs_shap": 0.027675297111272812
+  },
+  {
+    "feature": "insulin",
+    "mean_abs_shap": 0.022463280707597733
+  },
+  {
+    "feature": "dx_high_chol",
+    "mean_abs_shap": 0.01731794886291027
+  },
+  {
+    "feature": "female",
+    "mean_abs_shap": 0.010127966292202473
+  },
+  {
+    "feature": "bp_meds",
+    "mean_abs_shap": 0.007827438414096832
+  },
+  {
+    "feature": "diabetes_pills",
+    "mean_abs_shap": 0.00679767457768321
+  },
+  {
+    "feature": "chol_meds",
+    "mean_abs_shap": 0.0029844390228390694
+  }
+]
